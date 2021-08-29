@@ -31,13 +31,38 @@ $result=mysqli_query($db,"SELECT * from customer_info ORDER BY id ASC");
         text-align:center;
     
     }
+    ul {
+        float: right;
+        list-style-type: none;
+        margin-top: -50px;
+    }
+
+    ul li {
+        display: inline-block;
+    }
+
+    ul li a {
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        padding: 5px 20px;
+        border: 1px solid #fff;
+        transition: 0.6s ease;
+        margin-right: 10px;
+
+    }
+
+    ul li a:hover {
+        background-color: #fff;
+        color: #000;
+    }
+
     
     table{ 
         position:absolute;
-        top:50%;
-	    left:50%;
-        width:80%;
-	    transform:translate(-50%,-50%);  
+        top: 125px;
+	    left:10%;
+        width:80%; 
         border-collapse: separate;
         border:1px solid black;
         border-bottom:15px solid black;
@@ -61,8 +86,12 @@ $result=mysqli_query($db,"SELECT * from customer_info ORDER BY id ASC");
 <body>
     <header>
         <div>
-        <div class ="title">
-        <h1>OUR CUSTOMERS</h1>
+            <div class ="title">
+                <h1>OUR CUSTOMERS</h1>
+            </div>
+            <ul>
+                <li><a href="landing_page.html">Home</a></li>
+            </ul>
         </div>
     </header>
     <br>

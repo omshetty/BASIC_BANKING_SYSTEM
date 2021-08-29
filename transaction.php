@@ -21,6 +21,32 @@
         text-align:center;
     
     }
+    ul {
+        float: right;
+        list-style-type: none;
+        margin-top: -50px;
+    }
+
+    ul li {
+        display: inline-block;
+    }
+
+    ul li a {
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        padding: 5px 20px;
+        border: 1px solid #fff;
+        transition: 0.6s ease;
+        margin-right: 10px;
+
+    }
+
+    ul li a:hover {
+        background-color: #fff;
+        color: #000;
+    }
+
     .details{
         margin:2% auto;
         border: 1px solid #000;
@@ -48,6 +74,7 @@
         color: #000;
         border: 1px solid #000;
     }
+    
 </style>
 <body>
     <header>
@@ -55,17 +82,51 @@
         <div class ="title">
         <h1>TRANSFER MONEY</h1>
         </div>
+        <ul>
+                <li><a href="landing_page.html"> Home </a> </li>
+            </ul>
+        </div>
     </header>
     <br>
                 
     <form class="details" action="transaction.php" method="POST" enctype="multipart/form-data" autocomplete="off">
         <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">PLEASE ENTER THE BENEFACTOR NAME:</label>
-        <input type="text" class="form-control" name="sender" required>
-        <br>
+        <select  class="form-control" name="sender" required>
+            <option value="null">Please select a name from the drop-down below </option>
+            <?php
+            $server = "localhost"; 
+            $username = "root";
+            $password = "" ;
+            $dbname = "bank";
+
+            $db= mysqli_connect($server , $username , $password , $dbname);
+            $result=$db->query("SELECT name FROM customer_info");
+            while($rows=$result->fetch_assoc()) 
+            {   $name_option=$rows['name'];
+                echo"<option value='$name_option'>$name_option</option>";
+            }  
+            ?>
+            </select>
+        <br> 
         <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">PLEASE ENTER THE BENEFICIARY NAME:</label>
-        <input type="text" class="form-control" name="reciever" required>
+        <select  class="form-control" name="reciever" required>
+        <option value="null">Please select a name from the drop-down below</option>
+        <?php
+            $server = "localhost";
+            $username = "root";
+            $password = "" ;
+            $dbname = "bank";
+
+            $db= mysqli_connect($server , $username , $password , $dbname);
+            $result=$db->query("SELECT name FROM customer_info");
+            while($rows=$result->fetch_assoc()) 
+            {   $name_option=$rows['name'];
+                echo"<option value='$name_option'>$name_option</option>";
+            }  
+            ?>
+            </select>
         <br>       
         <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">PLEASE ENTER THE AMOUNT TO BE TRANSFERED:</label>
@@ -91,16 +152,42 @@ if(isset($_POST['SUBMIT'])){
 		$sender = $_POST['sender'];
 		$reciever = $_POST['reciever'];
         $amount = $_POST['amount'];
-        $query = "insert into transanction_history(sender,reciever,amount) values('$sender','$reciever','$amount')";
-        $run = mysqli_query($db,$query) or die(mysqli_error());
-		if($run){
-                      
-    		header("Location:landing_page.html");
-		}
-		else{
-			echo "SOMETHING WENT WRONG";
-		}
-	
+        $result=$db->query("SELECT * FROM customer_info");
+        $sender_balance;
+        $reciever_balance;
+        while($rows=$result->fetch_assoc()) 
+            {   if($sender==$rows['name'])
+                $sender_balance=$rows['balance'];
+                if($reciever==$rows['name'])
+                $reciever_balance=$rows['balance'];
+
+            }
+            if($reciever!=$sender)
+            {     
+                if($amount<$sender_balance){
+                    $credit=$reciever_balance+$amount;
+                    $credit_op=$db->query("UPDATE `customer_info` SET `balance`='$credit' WHERE `name`='$reciever'");
+                    $debit=$sender_balance-$amount;
+                    $debit_op=$db->query("UPDATE `customer_info` SET `balance`='$debit' WHERE `name`='$sender'");
+
+                    $query = "insert into transanction_history(sender,reciever,amount) values('$sender','$reciever','$amount')";       
+                    $run = mysqli_query($db,$query) or die(mysqli_error());
+                    if($run){
+                                
+                        header("Location:landing_page.html");
+                    }
+                    else{
+                        echo "SOMETHING WENT WRONG";
+                    }
+                }
+            
+                else{
+                    echo "<span style='color:red;'>NOT ENOUGH BALANCE AVAILABLE TO COMPLETE THE TRANSACTION</span>";
+                }
+            }
+            else{
+                echo "<span style='color:red;'>YOU CANNOT TRANSFER MONEY TO THE SAME PERSON</span>";
+            }
 	}
 	else{
 		echo "<span style='color:red;'>ALL FIELDS ARE COMPULSORY</span>";

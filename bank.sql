@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2021 at 03:05 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.1
+-- Generation Time: Aug 29, 2021 at 11:34 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,16 +39,16 @@ CREATE TABLE `customer_info` (
 --
 
 INSERT INTO `customer_info` (`id`, `name`, `email`, `balance`) VALUES
-(1, 'Suresh', 'suresh@xyz.com', 10000),
-(2, 'Ramesh', 'ramesh@xyz.com', 20000),
-(3, 'Mahesh', 'mahesh@xyz.com', 30000),
-(4, 'John', 'john@xyz.com', 40000),
-(5, 'Juan', 'juan@xyz.com', 50000),
-(6, 'Mike', 'mike@xyz.com', 60000),
-(7, 'David', 'david@xyz.com', 70000),
-(8, 'Alice', 'alice@xyz.com', 80000),
-(9, 'Harry', 'harry@xyz.com', 90000),
-(10, 'Joe', 'joe@xyz.com', 1000);
+(1, 'Suresh', 'suresh@example.com', 100),
+(2, 'Ramesh', 'ramesh@example.com', 200),
+(3, 'Mahesh', 'mahesh@example.com', 300),
+(4, 'John', 'john@example.com', 400),
+(5, 'Juan', 'juan@example.com', 500),
+(6, 'Mike', 'mike@example.com', 600),
+(7, 'David', 'david@example.com', 700),
+(8, 'Alice', 'alice@example.com', 800),
+(9, 'Harry', 'harry@example.com', 900),
+(10, 'Joe', 'joe@example.com', 50);
 
 -- --------------------------------------------------------
 
